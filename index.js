@@ -1,6 +1,4 @@
-const express = require('express');
-
-const app = express();
+const app = require('./api/app.js');
 
 const port = 4000;
 
