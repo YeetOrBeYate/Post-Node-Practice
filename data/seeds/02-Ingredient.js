@@ -1,8 +1,5 @@
 
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('ingredient').del()
-    .then(function () {
       // Inserts seed entries
       return knex('ingredient').insert([
         { name: "Egg", measurement: 3.00},
@@ -12,5 +9,4 @@ exports.seed = function(knex) {
         { name: 'Water', measurement: .33},
         { name: 'Egg', measurement: 3.00}
       ]);
-    });
 };

@@ -1,8 +1,5 @@
 
 exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('step').del()
-    .then(function () {
       // Inserts seed entries
       return knex('step').insert([
         { name: 'Assemble Sandwhich', step_number: 1},
@@ -12,5 +9,4 @@ exports.seed = function(knex) {
         { name: 'Mix Pancake, Egg, and Water', step_number: 1},
         { name: 'Cook Pancake', step_number: 2}
       ]);
-    });
 };
