@@ -33,9 +33,7 @@ const ConnectSteps = (rID, sID)=>{
     
     return db('recipe_step')
     .insert({recipeid: rID, stepid:sID})
-    .then(i=>{
-        console.log(i)
-    })
+    
 }
 
 const AddSteps = (rID, body)=>{
@@ -47,10 +45,63 @@ const AddSteps = (rID, body)=>{
     
 }
 
+const getRecipeSteps = (id)=>{
+    return db ('test')
+    .select('s.name as Stepname')
+    .from('recipe')
+    .join('recipe_step as rs', 'recipe.id', 'rs.recipeid')
+    .join('step as s', 'rs.stepid', 's.id')
+    .where('recipe.id', id)
+}
+
+const getRecipeIngredients = (id)=>{
+    return db ('test')
+    .select('i.name as Ingredient')
+    .from('recipe')
+    .join('recipe_ingredient as ri', 'recipe.id', 'ri.recipeid')
+    .join('ingredient as i', 'ri.ingredientid', 'i.id')
+    .where('recipe.id', id)
+}
+
+const connectIngredients = (rID, iID)=>{
+    return db ('recipe_ingredient')
+    .insert({recipeid: rID, ingredientid: iID})
+
+}
+
+const addIngredients = (rID, body)=>{
+
+    return db('ingredient')
+    .insert(body, "id")
+    .then(id=>{
+        return connectIngredients(rID, id[0])
+    })
+
+}
+
+const newgetbyId = async (id)=>{
+    const yeet = await getRecipeSteps(id)
+    const yate = await getRecipeIngredients(id)
+    return db('test')
+    .select('name')
+    .from('recipe')
+    .where("id",id)
+    .first()
+    .then(item=>{
+        item = {...item, steps:yeet, ingredients:yate}
+        return item
+    })
+}
+
 module.exports ={
     getAll,
     getbyId,
     editRecipe,
     postRecipe,
-    AddSteps
+    AddSteps,
+    getRecipeSteps,
+    newgetbyId,
+    getRecipeIngredients,
+    addIngredients
+
 }

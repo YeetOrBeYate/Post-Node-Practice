@@ -15,7 +15,7 @@ router.get('/recipes', (req,res)=>{
 
 router.get('/recipes/:id', (req,res)=>{
     const id = req.params.id;
-    qs.getbyId(id)
+    qs.newgetbyId(id)
     .then(item=>{
         res.status(200).json({item})
     })
@@ -58,6 +58,46 @@ router.post('/recipes/:id/steps', (req,res)=>{
     qs.AddSteps(id,body)
     .then(id=>{
         res.status(200).json({id})
+    })
+    .catch(err=>{
+        console.log("error i guess",err)
+        res.status(500).json({err})
+    })
+})
+
+router.get('/recipes/:id/steps', (req,res)=>{
+    const id = req.params.id;
+    qs.getRecipeSteps(id)
+    .then(steps=>{
+        res.status(200).json({steps})
+    })
+    .catch(err=>{
+        console.log(err)
+        res.status(500).json({err})
+    })
+})
+
+router.get('/recipes/:id/ingredients', async (req,res)=>{
+    const id = req.params.id;
+
+    try{
+        const yeet = await qs.getRecipeIngredients(id)
+    
+        res.status(200).json({yeet});
+    }
+    catch(err){
+        res.status(500).json({err})
+    }
+ 
+})
+
+router.post('/recipes/:id/ingredients', (req,res)=>{
+    const body = req.body;
+    const id = req.params.id;
+
+    qs.addIngredients(id,body)
+    .then(stuff=>{
+        res.status(200).json({stuff})
     })
     .catch(err=>{
         console.log(err)
